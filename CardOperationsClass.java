@@ -6,18 +6,34 @@ public class CardOperationsClass {
     private double maximalOverdraft;
     private final Lock lock = new ReentrantLock();
 
+    /*
+     Getter fo the maximum overdraft.
+     */
     public double getMaximalOverdraft() {
         return maximalOverdraft;
     }
 
+    /*
+     Setter for the maximum overdraft.
+     - maximalOverdraft is the new amount of the overdraft.
+     */
     public void setMaximalOverdraft(double maximalOverdraft) {
         this.maximalOverdraft = maximalOverdraft*(-1);
     }
+
+    /*
+     Class constructor
+     */
     public CardOperationsClass(double initialBalance) {
         this.balance = initialBalance;
         this.setMaximalOverdraft(100);
     }
 
+    /*
+     The following method deposits money into the card for the threads to share.
+     An Easter Egg has been added in case a thread wants to deposit a sus amount of cash.
+     - amount is the amount of money to be deposited.
+     */
     public void depositIntoCard(double amount) {
         lock.lock();
         try {
@@ -34,6 +50,13 @@ public class CardOperationsClass {
         }
     }
 
+    /*
+     The following method withdraws money from the card based on 3 scenarios.
+     The first one is if the balance is bigger than the amount,
+     the second one is if we enter an overdraft
+     and the third one is if the spending exceeds the maximum overdraft allowed.
+     - amount is the amount of money to be withdrawn from the account
+     */
     public void withdrawFromCard(double amount) {
         lock.lock();
         try {
@@ -45,9 +68,11 @@ public class CardOperationsClass {
                 System.out.println(Thread.currentThread().getName() + " is withdrawing " + amount + " euros but is in overdraft.");
                 balance = (double)Math.round((balance - amount)*105) / 100;
                 System.out.println("New balance after withdrawal is " + balance + " euros and is accounted for the 5% tax");
+            } else if (balance > 0) {
+                System.out.println("Not enough balance for " + Thread.currentThread().getName() + " to withdraw " + amount + " euros.");
             } else {
-                System.out.println("Not enough balance for " + Thread.currentThread().getName() + " to withdraw " + amount + " euros.\n" +
-                        "Dear customer, please pay up your debt to the bank, money ain't free.");
+                System.out.println("Not enough balance for " + Thread.currentThread().getName() + " to withdraw " + amount + " euros.");
+                System.out.println("Dear customer, please pay up your debt to the bank, money ain't free.");
             }
         } finally {
             lock.unlock();
