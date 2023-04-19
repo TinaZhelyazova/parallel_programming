@@ -8,7 +8,9 @@ java.util.concurrent.locks.Lock и java.util.concurrent.locks.ReentrantLock са
 - private double maximalOverdraft - максималния позволен оувърдрафт
 - private final Lock lock - private поле, което представлява lock object за синхронизиране.
 
-Класът е съставен от 4 метода:
+Класът е съставен от 5 метода:
+-public double getMaximalOverdraft()- Този метод връща стойността на максималния оувърдрафт.
+
 -public void setMaximalOverdraft(double maximalOverdraft) - преизчислява стойността на оувърдрафта в негативната стойност на зададената първоначално стойност.
 
 -public CardOperationsClass(double initialBalance) - public конструктор, който инициализира баланса и максималния оувърдрафт
