@@ -4,6 +4,7 @@ public class CardPaymentApp {
 
         Thread depositThread1 = new Thread(() -> card.depositIntoCard(50.0), "Deposit Thread 1");
         Thread depositThread2 = new Thread(() -> card.depositIntoCard(75.0), "Deposit Thread 2");
+        Thread depositThread3 = new Thread(() -> card.depositIntoCard(15000.0), "Dumb thread 3");
 
         Thread withdrawThread1 = new Thread(() -> card.withdrawFromCard(25.0), "Withdraw Thread 1");
         Thread withdrawThread2 = new Thread(() -> card.withdrawFromCard(75.0), "Withdraw Thread 2");
@@ -14,5 +15,6 @@ public class CardPaymentApp {
         depositThread2.start();
         withdrawThread2.start();
         withdrawThread1.start();
+        depositThread3.start();
     }
 }
